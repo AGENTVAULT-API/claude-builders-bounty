@@ -33,7 +33,7 @@ This submission provides an importable n8n workflow that runs every Friday at 17
    - commits since the start of the 7-day window,
    - closed issues since the start of the 7-day window,
    - merged PRs from GitHub Search for the same repository and week.
-4. `Prepare Claude Prompt` validates that all GitHub responses are arrays/search results and fails loudly if a fetch is malformed instead of letting Claude summarize partial data silently.
+4. `Prepare Claude Prompt` validates that all GitHub responses are arrays/search results, filters closed issues and merged PRs to the exact 7-day window, and fails loudly if a fetch is malformed instead of letting Claude summarize partial data silently.
 5. `Claude Narrative Summary` calls Anthropic's Messages API with model `claude-sonnet-4-20250514`.
 6. `Format Delivery` creates a Discord payload and an email subject/body.
 7. `Delivery Mode Email?` routes to Discord webhook delivery by default, or email when `DELIVERY_MODE=email`.

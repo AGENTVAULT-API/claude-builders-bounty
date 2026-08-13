@@ -65,6 +65,10 @@ def main() -> None:
     assert "Array.isArray(mergedPRs)" in prompt_code
     assert "mergedSearch.items" in prompt_code
     assert "mergedRaw.filter" in prompt_code
+    assert "inWindow(item.closed_at)" in prompt_code
+    assert "pull_request?.merged_at" in prompt_code
+    assert "searchResultWithoutMergedAt" in prompt_code
+    assert "item.state === 'closed'" in prompt_code
     assert "Overview, Highlights, Risks/Follow-ups, Next Week" in prompt_code
 
     claude = node(workflow, "Claude Narrative Summary")
