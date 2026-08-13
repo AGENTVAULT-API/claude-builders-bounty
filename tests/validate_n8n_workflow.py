@@ -58,9 +58,13 @@ def main() -> None:
     assert "DELIVERY_MODE" in config_code
 
     prompt_code = node(workflow, "Prepare Claude Prompt")["parameters"]["jsCode"]
+    assert "flattenJson" in prompt_code
+    assert "Array.isArray(i.json)" in prompt_code
     assert "Array.isArray(commits)" in prompt_code
     assert "Array.isArray(closedRaw)" in prompt_code
     assert "Array.isArray(mergedPRs)" in prompt_code
+    assert "mergedSearch.items" in prompt_code
+    assert "mergedRaw.filter" in prompt_code
     assert "Overview, Highlights, Risks/Follow-ups, Next Week" in prompt_code
 
     claude = node(workflow, "Claude Narrative Summary")
