@@ -21,7 +21,10 @@ LOG_PATH = Path.home() / ".claude" / "hooks" / "blocked.log"
 BLOCK_RULES: list[tuple[str, re.Pattern[str]]] = [
     (
         "rm -rf",
-        re.compile(r"(?:^|[;&|()\s])rm\s+(?:-[A-Za-z]*r[A-Za-z]*f|-\S*f\S*r\S*)\b", re.IGNORECASE),
+        re.compile(
+            r"(?:^|[;&|()\s])rm\s+(?:-[A-Za-z]*r[A-Za-z]*f[A-Za-z]*|-[A-Za-z]*f[A-Za-z]*r[A-Za-z]*)\b",
+            re.IGNORECASE,
+        ),
     ),
     (
         "rm --recursive --force",
