@@ -19,7 +19,19 @@ from typing import Any
 LOG_PATH = Path.home() / ".claude" / "hooks" / "blocked.log"
 
 BLOCK_RULES: list[tuple[str, re.Pattern[str]]] = [
-    ("rm -rf", re.compile(r"(?:^|[;&|()\s])rm\s+(?:-[A-Za-z]*r[A-Za-z]*f|-\S*f\S*r\S*)\b")),
+    (
+        "rm -rf",
+        re.compile(r"(?:^|[;&|()\s])rm\s+(?:-[A-Za-z]*r[A-Za-z]*f|-\S*f\S*r\S*)\b", re.IGNORECASE),
+    ),
+    (
+        "rm --recursive --force",
+        re.compile(
+            r"(?:^|[;&|()\s])rm\b"
+            r"(?=[^\n;&|]*\s--recursive\b)"
+            r"(?=[^\n;&|]*\s--force\b)",
+            re.IGNORECASE,
+        ),
+    ),
     ("DROP TABLE", re.compile(r"\bDROP\s+TABLE\b", re.IGNORECASE)),
     ("git push --force", re.compile(r"\bgit\s+push\b[^\n;&|]*\s(?:--force|-f|--force-with-lease)\b", re.IGNORECASE)),
     ("TRUNCATE", re.compile(r"\bTRUNCATE\b", re.IGNORECASE)),

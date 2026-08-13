@@ -46,6 +46,9 @@ def test_allowed_commands_pass() -> None:
 def test_blocked_commands_fail() -> None:
     cases = [
         "rm -rf build",
+        "rm -fr build",
+        "rm --recursive --force build",
+        "rm --force --recursive build",
         "sudo rm -fr /tmp/example",
         "psql -c 'DROP TABLE users'",
         "git push --force origin main",
