@@ -23,9 +23,9 @@ classify() {
   local subject_lc
   subject_lc="$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')"
   case "$subject_lc" in
-    feat:*|feature:*|add:*|added:*|*" add "*|*" adds "*|*" implement"*|*" introduce"*) echo "Added" ;;
-    fix:*|bug:*|hotfix:*|*" fix"*|*" bug"*|*" repair"*|*" correct"*) echo "Fixed" ;;
-    remove:*|removed:*|delete:*|deleted:*|*" remove"*|*" delete"*|*" drop "*) echo "Removed" ;;
+    feat:*|feature:*|add:*|added:*|implement*|introduce*|*" add "*|*" adds "*|*" implement"*|*" introduce"*) echo "Added" ;;
+    fix:*|bug:*|hotfix:*|repair*|correct*|*" fix"*|*" bug"*|*" repair"*|*" correct"*) echo "Fixed" ;;
+    remove:*|removed:*|delete:*|deleted:*|drop:*|drop\ *|*" remove"*|*" delete"*|*" drop "*) echo "Removed" ;;
     refactor:*|chore:*|docs:*|style:*|test:*|ci:*|perf:*|change:*|changed:*|update:*|updated:*|*" update"*|*" refactor"*) echo "Changed" ;;
     *) echo "Changed" ;;
   esac

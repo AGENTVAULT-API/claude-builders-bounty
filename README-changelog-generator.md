@@ -43,3 +43,11 @@ A real sample generated from this repository is included at:
 ```text
 samples/CHANGELOG.sample.md
 ```
+
+## Test
+
+Run the included smoke test to verify latest-tag range detection and all four output categories:
+
+```bash
+bash tests/test_changelog.sh
+```
