@@ -46,3 +46,34 @@ def test_uncovered_large_diff_reports_risks():
     assert "large patch size" in output
     assert "Security- or payment-sensitive" in output
     assert output.endswith("**Medium**\n")
+
+
+def test_lockfile_migration_and_truncated_diff_are_flagged():
+    diff = """diff --git a/package-lock.json b/package-lock.json
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1 +1 @@
+-{}
++{"lockfileVersion": 3}
+diff --git a/db/migrations/001_add_users.sql b/db/migrations/001_add_users.sql
+--- /dev/null
++++ b/db/migrations/001_add_users.sql
+@@ -0,0 +1 @@
++CREATE TABLE users(id INTEGER PRIMARY KEY);
+"""
+    stats = module.parse_diff(diff, truncated=True)
+    output = module.review({"title": "Dependencies and schema"}, stats)
+
+    assert stats.files == ["package-lock.json", "db/migrations/001_add_users.sql"]
+    assert stats.truncated is True
+    assert "diff exceeded 2 MB" in output
+    assert "Dependency lockfiles changed" in output
+    assert "Schema or migration changes" in output
+    assert output.endswith("**Low**\n")
+
+
+def test_pr_url_validation_accepts_only_public_pull_urls():
+    assert module.PR_URL.fullmatch("https://github.com/owner-name/repo.name/pull/123")
+    assert not module.PR_URL.fullmatch("https://github.com/owner/repo/issues/123")
+    assert not module.PR_URL.fullmatch("https://github.com/owner/repo/pull/0")
+    assert not module.PR_URL.fullmatch("https://evil.example/owner/repo/pull/123")
