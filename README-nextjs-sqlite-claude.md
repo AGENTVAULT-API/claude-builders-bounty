@@ -13,15 +13,24 @@ This PR adds an opinionated `CLAUDE.md` for a greenfield SaaS built with Next.js
 
 ## Why this template is opinionated
 
-It chooses a small, boring architecture: Server Components by default, route handlers as thin adapters, service/repository layers for business logic, and explicit SQL migrations.
+It chooses a small, boring architecture: Server Components by default, route handlers as thin adapters, service/repository layers for business logic, Prisma-backed SQLite access, and explicit SQL migrations.
 
-The goal is to stop Claude Code from asking generic structure questions and to prevent common SaaS mistakes: SQL string interpolation, client-side auth trust, mutable old migrations, unbounded list queries, and vague utility modules.
+The goal is to stop Claude Code from asking generic structure questions and to prevent common SaaS mistakes: SQL string interpolation, client-side authentication trust, mutable old migrations, unbounded list queries, skipped tests, and vague utility modules.
+
+## What the template covers
+
+- **Next.js App Router:** route groups, Server Components by default, client components only for browser state.
+- **SQLite + Prisma:** local `DATABASE_URL`, repository boundaries, idempotent seed data, and safe migration expectations.
+- **Authentication:** server-side session checks, no trust in client-visible role flags, and explicit access-control review.
+- **Testing:** required `npm run lint`, `npm run typecheck`, `npm run test`, and migration checks before completion.
+- **Security:** parameterized queries, input validation, rate-limit placement, secret handling, and destructive-operation guardrails.
 
 ## Manual validation
 
-I validated the template by checking it against a minimal Next.js 15 + SQLite project shape and confirming it answers the usual first-context questions without extra clarification:
+I validated the template by checking it against a minimal Next.js 15 + SQLite/Prisma project shape and confirming it answers the usual first-context questions without extra clarification:
 
 - where routes, services, repos, migrations, and components go
 - how database migrations are named and applied
-- what commands to run before completion
+- how authentication and authorization checks are enforced server-side
+- what test commands to run before completion
 - what security and anti-pattern rules to follow
