@@ -4,7 +4,11 @@ This hook blocks high-risk Bash commands before Claude Code runs them.
 
 It implements a Claude Code `PreToolUse` hook for the Bash tool and blocks:
 
-- `rm -rf`
+- Recursive + force file removal, including compact and long-form variants:
+  - `rm -rf path`
+  - `rm -fr path`
+  - `rm --recursive --force path`
+  - `rm --force --recursive path`
 - `DROP TABLE`
 - `git push --force` / `git push -f` / `git push --force-with-lease`
 - `TRUNCATE`
